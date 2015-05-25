@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Админская панель";
+}
+
+<h2>@ViewBag.Title</h2>
+<div>
+	@Html.ActionLink("Специальности","AddSpeciality")
+	<br/>
+	@Html.ActionLink( "Доктора", "AddDoctor" )
+	<br/>
+	@Html.ActionLink( "Расписания", "AddTimeTable" )
+	<br/>
+	@Html.ActionLink( "Посещения", "Visits" )
+</div>

@@ -1,0 +1,105 @@
+﻿@model AddDoctorViewModel
+
+@{
+	ViewBag.Title = "AddDoctor";
+}
+
+<h1>Добавление докторов</h1>
+
+	@using ( Html.BeginForm( new { @class = "form-horizontal" } ) )
+	{
+		<div>
+			@if ( Model.Doctors.Count() > 0 )
+			{
+				<table class="table">
+					<caption>Таблица докторов</caption>
+					<tr>
+						<th>Фамилия</th>
+						<th>Имя</th>
+						<th>Отчество</th>
+						<th>Специльность</th>
+						<th />
+					</tr>
+					@foreach ( var item in Model.Doctors )
+					{
+						<tr>
+							<td>@item.LastName</td>
+							<td>@item.FirstName</td>
+							<td>@item.MiddleName</td>
+							<td>@item.Speciality.Name</td>
+							<td>@Html.ActionLink( "Удалить", "DeleteDoctor", new { item.Id } )</td>>
+						</tr>
+					}
+				</table>
+			}
+			else
+			{
+				<h2>Пока что не добавлено ни одного врача</h2>
+			}
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+				@*Добавление*@
+				<div class="form-group">
+					@Html.LabelFor( x => x.Speciality, "Выберите специальность", new { @class = "col-md-2 control-label" } )
+					<div class="col-md-10">
+						<select name="Speciality" class="form-control">
+							@foreach ( var spec in Model.Specialities )
+							{
+								<option value="@spec.Id">
+									@spec.Name
+								</option>
+							}
+						</select>
+					</div>
+				</div>
+				<br />
+				<br />
+				<div class="form-group">
+					@Html.LabelFor( x => x.DoctorLastName, "Фамилия", new { @class = "col-md-2 control-label" } )
+					<div class="col-md-10">
+						@Html.TextBoxFor( x => x.DoctorLastName, new { @class = "form-control" } )
+					</div>
+				</div>
+				<br />
+				<br />
+				<div class="form-group">
+					@Html.LabelFor( x => x.DoctorFirstName, "Имя", new { @class = "col-md-2 control-label" } )
+					<div class="col-md-10">
+						@Html.TextBoxFor( x => x.DoctorFirstName, new { @class = "form-control" } )
+					</div>
+				</div>
+				<br />
+				<br />
+
+				<div class="form-group">
+					@Html.LabelFor( x => x.DoctorMiddleName, "Отчество", new { @class = "col-md-2 control-label" } )
+					<div class="col-md-10">
+						@Html.TextBoxFor( x => x.DoctorMiddleName, new { @class = "form-control" } )
+					</div>
+				</div>
+				<br />
+				<br />
+				<div class="form-group">
+					@Html.LabelFor( x => x.DoctorEmail, "Логин для доктора (Email)", new { @class = "col-md-2 control-label" } )
+					<div class="col-md-10">
+						@Html.TextBoxFor( x => x.DoctorEmail, new { @class = "form-control" } )
+					</div>
+				</div>
+				<br />
+				<br />
+				<br />
+				<div class="form-group">
+					@Html.LabelFor( x => x.DoctorPassword, "Пароль для доктора", new { @class = "col-md-2 control-label" } )
+					<div class="col-md-10">
+						@Html.PasswordFor( x => x.DoctorPassword, new { @class = "form-control" } )
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br />
+		<input type="submit" />
+	}
+

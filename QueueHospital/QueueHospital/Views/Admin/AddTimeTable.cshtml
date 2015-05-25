@@ -1,0 +1,75 @@
+﻿@model AddTimeTableViewModel
+
+@{
+	ViewBag.Title = "Управление расписанием";
+}
+
+<h2>Управление расписанием</h2>
+
+@using ( Html.BeginForm() )
+{
+	<table border="1" class="table">
+		<caption>Расписание приема врачей</caption>
+		<tr>
+			<th></th>
+			<th>Понедельник</th>
+			<th>Вторник</th>
+			<th>Среда</th>
+			<th>Четверг</th>
+			<th>Пятница</th>
+		</tr>
+		@foreach ( var doc in Model.Doctors )
+		{
+			<tr>
+				<td>@doc.FullName</td>
+				<td>@Model.GetTimeString( doc.Id, DayOfWeek.Monday )</td>
+				<td>@Model.GetTimeString( doc.Id, DayOfWeek.Tuesday )</td>
+				<td>@Model.GetTimeString( doc.Id, DayOfWeek.Wednesday )</td>
+				<td>@Model.GetTimeString( doc.Id, DayOfWeek.Thursday )</td>
+				<td>@Model.GetTimeString( doc.Id, DayOfWeek.Friday )</td>
+
+			</tr>
+		}
+	</table>
+
+	<br />
+	<select name="Doctor">
+		@foreach ( var doc in Model.Doctors )
+		{
+			<option value="@doc.Id">
+				@doc.FullName
+			</option>
+		}
+	</select>
+	<br />
+	<br />
+	<br />
+	<select name="dayOfWeek" id="dayOfWeek">
+		<option value="1">Понедельник</option>
+		<option value="2">Вторник</option>
+		<option value="3">Среда</option>
+		<option value="4">Четверг</option>
+		<option value="5">Пятница</option>
+	</select>
+
+	<select name="StartTime">
+		@for ( int i = 8; i <= 19; i++ )
+		{
+			<option value="@i">
+				@i часов
+			</option>
+		}
+	</select>
+
+	<select name="EndTime">
+		@for ( int i = 8; i <= 19; i++ )
+		{
+			<option value="@i">
+				@i часов
+			</option>
+		}
+	</select>
+
+	<input type="submit" value="Сохранить" />
+}
+

@@ -1,0 +1,68 @@
+﻿@model ResultModel
+
+<h1>Запись проведена успешно</h1>
+
+@using ( Html.BeginForm( new { @class = "form-horizontal" } ) )
+{
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Фамилия пациента:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.PatientLastName</label>
+				</div>
+			</div>
+			<br /><br />
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Имя пациента:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.PatientFirstName</label>
+				</div>
+			</div>
+			<br /><br />
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Отчество пациента:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.PatientMiddleName</label>
+				</div>
+			</div>
+			<br /><br />
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">СНИЛС пациента:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.Snils</label>
+				</div>
+			</div>
+			<br /><br />
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Контактный номер пациента:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.PatientPhoneNumber</label>
+				</div>
+			</div>
+			<br /><br /><br />
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Врач:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.Doctor.FullName</label>
+				</div>
+			</div>
+			<br /><br /><br />
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Дата посещения:</label>
+				<div class="col-md-8">
+					<label class="control-label">@Model.Visit.VisitDateTime.ToString("f")</label>
+				</div>
+			</div>
+			<br /><br />
+			@Html.ActionLink( "На главную", "Index")
+		</div>
+	</div>
+}

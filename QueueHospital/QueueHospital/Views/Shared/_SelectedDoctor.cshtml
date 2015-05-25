@@ -1,0 +1,27 @@
+﻿@{
+	Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>AddProduct</title>
+</head>
+<body>
+	<div class="col-md-4">
+		<h2>Выберите врача</h2>
+		<p>
+			<select name="Speciality">
+				@*@foreach ( var doc in Model.Doctors )
+				{
+					<option value="@doc.Id">
+						@doc.LastName @doc.FirstName @doc.MiddleName
+					</option>
+				}*@
+				<option value="545">dfgdfg</option>
+			</select>
+		</p>
+	</div>
+</body>
+</html>

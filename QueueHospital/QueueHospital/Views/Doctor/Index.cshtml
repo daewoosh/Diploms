@@ -1,0 +1,51 @@
+﻿@model DoctorsModel
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<h2>Список записавшихся пациентов</h2>
+
+@using ( Html.BeginForm() )
+{
+	<div id="DoctorInfo">
+		<label>Здравствуйте</label>
+		<br />
+		<label>@Model.Doctor.FullName !</label>
+		<br />
+		<label>Здесь вы можете ознакомиться со списком записавшихся к Вам пациентов</label>
+		<br />
+	</div>
+
+	if ( Model.Visits.Count() > 0 )
+	{
+		<table class="table">
+			<caption>Список предстоящих посещений</caption>
+			<tr>
+				<th>Фамилия</th>
+				<th>Имя</th>
+				<th>Отчество</th>
+				<th>Дата</th>
+				<th>Время</th>
+				<th>Номер СНИЛС</th>
+				<th>Номер телефона</th>
+			</tr>
+			@foreach ( var visit in Model.Visits )
+			{
+				<tr>
+					<td>@visit.PatientLastName</td>
+					<td>@visit.PatientFirstName</td>
+					<td>@visit.PatientMiddleName</td>
+					<td>@visit.VisitDateTime.ToShortDateString()</td>
+					<td>@visit.VisitDateTime.ToShortTimeString()</td>
+					<td>@visit.Snils</td>
+					<td>@visit.PatientPhoneNumber</td>
+				</tr>
+			}
+		</table>
+	}
+	else
+	{
+		<h1>К вам никто не записался. Пока что...</h1> 
+	}
+}

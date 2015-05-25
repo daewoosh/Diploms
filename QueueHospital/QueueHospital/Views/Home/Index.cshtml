@@ -1,0 +1,208 @@
+﻿@model IndexViewModel
+
+@{
+	ViewBag.Title = "Домашная страница";
+}
+
+@section scripts {
+	<script type="text/javascript">
+		$(function ()
+		{
+			$.getJSON("/Home/Specialities/List", function (data)
+			{
+				var items = "<option>---------------------</option>";
+				$.each(data, function (i, speciality)
+				{
+					items += "<option value='" + speciality.Value + "'>" + speciality.Text + "</option>";
+				});
+				$("#Specialities").html(items);
+			});
+
+
+
+			$("#Specialities").change(function ()
+			{
+				$.getJSON("/Home/Doctors/List/" + $("#Specialities > option:selected").attr("value"), function (data)
+				{
+					var items = "<option>---------------------</option>";
+					$.each(data, function (i, doctor)
+					{
+						items += "<option value='" + doctor.Value + "'>" + doctor.Text + "</option>";
+					});
+					$("#Doctors").html(items);
+				});
+			});
+
+
+			$("#datepicker").change(function ()
+			{
+				var localDoctorId = $("#Doctors > option:selected").val();
+				var localDate = $("#datepicker").val();
+
+				$.ajax({
+					url: "/Home/TimeTableList?DoctorId=" + localDoctorId + "&dateTimeString=" + localDate,
+					dataType: 'html',
+					success: function (data)
+					{
+						$('#TimeTables').html(data);
+					}
+				});
+
+
+			});
+		});
+
+		$("#datepicker").datepicker({
+			showOtherMonths: true,
+			selectOtherMonths: true,
+			minDate: 0
+		}, $.datepicker.regional["ru"]).val();
+
+		function GetValue()
+		{
+			var tb = document.getElementById("Time");
+			input = document.getElementsByTagName('input');
+			for (i = 0; i < (input).length; i++)
+			{
+				if (input[i].getAttribute('type') == 'radio')
+				{
+					if (input[i].checked)
+					{
+						tb.value = input[i].value;
+					}
+				}
+			}
+		}
+		jQuery(function ($)
+		{
+			$.datepicker.regional['ru'] = {
+				closeText: 'Закрыть',
+				prevText: '&#x3c;Пред',
+				nextText: 'След&#x3e;',
+				currentText: 'Сегодня',
+				monthNames: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+				'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+				monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+				'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
+				dayNames: ['воскресенье', 'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота'],
+				dayNamesShort: ['вск', 'пнд', 'втр', 'срд', 'чтв', 'птн', 'сбт'],
+				dayNamesMin: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+				weekHeader: 'Нед',
+				dateFormat: 'dd.mm.yy',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: ''
+			};
+			$.datepicker.setDefaults($.datepicker.regional['ru']);
+		});
+
+
+	$(document).ready(function ()
+	{
+		$('input').each(function ()
+		{
+			var self = $(this),
+			  label = self.next(),
+			  label_text = label.text();
+
+			label.remove();
+			self.iCheck({
+				radioClass: 'iradio_line',
+				insert: '<div class="icheck_line-icon"></div>' + label_text
+			});
+		});
+	});
+
+	</script>
+}
+
+<h1>@ViewBag.Title</h1>
+
+@using ( Html.BeginForm( new { @class = "form-horizontal" } ) )
+{
+	<div class="row">
+		<div class="col-md-8">
+
+			<div class="form-group">
+				<label for="PatientLastName" class="col-md-2 control-label">Фамилия*</label>
+				<div class="col-md-10">
+					@Html.TextBoxFor( x => x.PatientLastName, new { @class = "form-control" } )
+					@Html.ValidationMessageFor( m => m.PatientLastName )
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="form-group">
+				<label for="PatientFirstName" class="col-md-2 control-label">Имя*</label>
+				<div class="col-md-10">
+					@Html.TextBoxFor( x => x.PatientFirstName, new { @class = "form-control" } )
+					@Html.ValidationMessageFor( m => m.PatientFirstName )
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="form-group">
+				<label for="PatientLastName" class="col-md-2 control-label">Отчество*</label>
+				<div class="col-md-10">
+					@Html.TextBoxFor( x => x.PatientMiddleName, new { @class = "form-control" } )
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="form-group">
+				<label for="PatientLastName" class="col-md-2 control-label">СНИЛС*</label>
+				<div class="col-md-10">
+					@Html.TextBoxFor( x => x.PatientSnils, new { @class = "form-control" } )
+					@Html.ValidationMessageFor( m => m.PatientSnils )
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="form-group">
+				<label for="PatientPhoneNumber" class="col-md-2 control-label">Номер телефона*</label>
+				<div class="col-md-10">
+					@Html.TextBoxFor( x => x.PatientPhoneNumber, new { @class = "form-control" } )
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="form-group">
+				<label for="Specialities" class="col-md-2 control-label">Выберите специальность</label>
+				<div class="col-md-10">
+					<select id="Specialities" name="Specialities" class="form-control"></select>
+				</div>
+			</div>
+			<br />
+			<br />
+			<div class="form-group">
+				<label for="Doctors" class="col-md-2 control-label">Выберите врача</label>
+				<div class="col-md-10">
+					<select id="Doctors" name="Doctors" class="form-control"></select>
+				</div>
+			</div>
+			<br />
+			<br />
+
+			<div class="form-group">
+				<label for="datepicker" class="col-md-2 control-label">Выберите дату</label>
+				<div class="col-md-10">
+					<input type="text" id="datepicker" name="Date" class="form-control" />
+				</div>
+			</div>
+			<br />
+			<div id="TimeTables" name="TimeTables" class="form-group"></div>
+			<br />
+			<br />
+
+
+			
+			@*текстбокс для хранения выбранного времени*@
+			@Html.TextBoxFor( x => x.Time, new { style = "display: none;" } )
+			<br />
+			<br />
+			<input type="submit" value="Сохранить"/>
+		</div>
+	</div>
+}
+

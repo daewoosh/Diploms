@@ -1,0 +1,28 @@
+﻿@model TImeTableModel
+
+@section scripts {
+
+}
+
+@{int i = 1;}
+<div class="col-md-10">
+	@foreach ( var time in Model.Times )
+	{
+		if ( !Model.BlockedTimes.Contains( time ) )
+		{
+			<input type="radio" value="@time" onclick="GetValue()" name="times">@time
+		}
+		else
+		{
+			<label>@time</label>
+		}
+		if ( ( i % 4 ) == 0 )
+		{
+			<br />
+		}
+		i++;
+
+	}
+
+</div>
+<br />

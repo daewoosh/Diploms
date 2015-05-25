@@ -1,0 +1,46 @@
+﻿@model VisitsModel
+@{
+    ViewBag.Title = "Управление посещениями";
+}
+
+<h1>Управление посещениями</h1>
+
+@using ( Html.BeginForm() )
+{
+
+	if ( Model.Visits.Count() > 0 )
+	{
+		<table class="table">
+			<caption>Список предстоящих посещений</caption>
+			<tr>
+				<th>Врач</th>>
+				<th>Фамилия</th>
+				<th>Имя</th>
+				<th>Отчество</th>
+				<th>Дата</th>
+				<th>Время</th>
+				<th>Номер СНИЛС</th>
+				<th>Номер телефона</th>
+				<th/>
+			</tr>
+			@foreach ( var visit in Model.Visits )
+			{
+				<tr>
+					<td>@visit.Doctor.LastName</td>
+					<td>@visit.PatientLastName</td>
+					<td>@visit.PatientFirstName</td>
+					<td>@visit.PatientMiddleName</td>
+					<td>@visit.VisitDateTime.ToShortDateString()</td>
+					<td>@visit.VisitDateTime.ToShortTimeString()</td>
+					<td>@visit.Snils</td>
+					<td>@visit.PatientPhoneNumber</td>
+					<td>@Html.ActionLink( "Удалить", "DeleteVisit", new { visit.Id } )</td>>
+				</tr>
+			}
+		</table>
+	}
+	else
+	{
+		<h2>Нет ни одной записи. Пока что...</h2>
+	}
+}

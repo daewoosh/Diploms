@@ -1,0 +1,28 @@
+﻿@model QueueHospital.Models.AddSpecialityViewModel
+
+@{
+	ViewBag.Title = "Управление специальностями";
+}
+
+<h2>Управление специальностями</h2>
+<div>
+	@using ( Html.BeginForm() )
+	{
+		<table>
+			<caption>Таблица специальностей</caption>
+			<tr>
+				<th>Название</th>
+				<th/>
+			</tr>
+			@foreach ( var item in Model.Specialities )
+			{
+				<tr>
+					<td>@item.Name</td>>
+					<td>@Html.ActionLink( "Удалить", "DeleteSpeciality", new { item.Id } )</td>>
+				</tr>
+			}
+		</table>
+		@Html.TextBox( "SpecialityName" );
+		<input type="submit" />
+	}
+</div>
